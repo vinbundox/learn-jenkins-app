@@ -19,7 +19,7 @@ pipeline {
                 '''
             }
         }
-      stage ('Test'){
+      stage ('test'){
         agent {
                 docker {
                     image 'node:18-alpine'
@@ -28,8 +28,8 @@ pipeline {
             }
         steps {
             sh '''
-              Test -f build/index.html
-              nmp Test
+              test -f build/index.html
+              nmp test
             '''
         }
       }      
