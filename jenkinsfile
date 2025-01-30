@@ -19,27 +19,42 @@ pipeline {
                 '''
             }
         }
-      stage ('test'){
-        agent {
+        stage ('test'){
+             agent {
                 docker {
                     image 'node:18-alpine'
                     reuseNode true
                 }
             }
+            steps {
+             sh '''
+                 test -f build/index.html
+             '''
+            }
+    }    
+      
+    stage ('test'){
+        agent {
+                docker {
+                    image 'docker pull mcr.microsoft.com/playwright:v1.50.0-noble'
+                    reuseNode true
+                }
+        }
         steps {
             sh '''
-              test -f build/index.html
+              npm install -g serve
+              node_modules/.serve -s build && 
+              sleep 10
+              npx playwright test
             
             '''
         }
-      }      
-    }
-
+    }      
     post {
         always{
             junit 'test-results/junit.xml'
         }
     }        
 }                
-             
+}          
              
