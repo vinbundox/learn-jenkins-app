@@ -31,15 +31,17 @@ pipeline {
                  test -f build/index.html
              '''
             }
-    }    
-      
-    stage ('test'){
-        agent {
+        }
+        
+        stage ('test'){
+            agent {
                 docker {
                     image 'docker pull mcr.microsoft.com/playwright:v1.50.0-noble'
                     reuseNode true
                 }
+            }
         }
+
         steps {
             sh '''
               npm install -g serve
@@ -49,12 +51,13 @@ pipeline {
             
             '''
         }
-    }      
+    }
     post {
         always{
             junit 'test-results/junit.xml'
         }
-    }        
+      
+    }       
 }                
-}          
+         
              
