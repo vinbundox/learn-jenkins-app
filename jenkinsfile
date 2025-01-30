@@ -28,8 +28,8 @@ pipeline {
             }
         steps {
             sh '''
-              test -f build/index.html
-              nmp test
+              Test -f build/index.html
+              nmp Test
             '''
         }
       }      
